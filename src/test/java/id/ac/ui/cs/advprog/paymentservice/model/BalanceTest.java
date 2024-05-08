@@ -28,5 +28,4 @@ public class BalanceTest {
         assertEquals(balance, custBalance.getCustBalance());
     }
 
-
 }

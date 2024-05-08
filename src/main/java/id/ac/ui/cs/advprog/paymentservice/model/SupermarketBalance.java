@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Balance {
-    private Long custId;
-    private Integer custBalance;
-
+public class SupermarketBalance {
+    private Long supermarketId;
+    private Integer supermarketBalance;
 }
