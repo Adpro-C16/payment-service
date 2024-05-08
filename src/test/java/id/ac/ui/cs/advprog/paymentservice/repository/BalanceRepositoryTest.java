@@ -1,39 +1,82 @@
-//package id.ac.ui.cs.advprog.paymentservice.repository;
-//import id.ac.ui.cs.advprog.paymentservice.model.Balance;
-//import id.ac.ui.cs.advprog.paymentservice.model.SupermarketBalance;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.when;
-//
-//public class BalanceRepositoryTest {
-//
-//    @Mock
-//    private BalanceRepository balanceRepository;
-//
-//    @InjectMocks
-//
-//    private Balance custBalance;
-//
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.openMocks(this); // Initialize mocks
-//
-//        custBalance = new Balance();
-//        custBalance.setCustId(1L);
-//        custBalance.setCustBalance(100000);
-//    }
-//
-//    @Test
-//    void testFindByCustId() {
-//        when(balanceRepository.findById(1L)).thenReturn(Optional.of(custBalance));
-//        Optional<Balance> result = balanceService.findByCustId(1L);
-//        assertEquals(Optional.of(custBalance), result);
-//    }
-//}
+package id.ac.ui.cs.advprog.paymentservice.repository;
+
+import id.ac.ui.cs.advprog.paymentservice.model.Balance;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BalanceRepositoryTest {
+    private List<Balance> custBalances;
+
+    @BeforeEach
+    void setUp(){
+        custBalances = new ArrayList<>();
+
+        Balance custBalance1 = new Balance();
+        custBalance1.setCustId(1l);
+        custBalance1.setCustBalance(10000);
+
+        Balance custBalance2 = new Balance();
+
+        custBalance2.setCustId(2l);
+        custBalance2.setCustBalance(20000);
+
+
+        Balance custBalance3 = new Balance();
+        custBalance3.setCustId(3l);
+        custBalance3.setCustBalance(30000);
+
+        custBalances.add(custBalance1);
+        custBalances.add(custBalance2);
+        custBalances.add(custBalance3);
+
+    }
+
+    @Test
+    void testFindById() {
+        Long idToFind = 2L;
+
+        Balance foundBalance = balanceRepository.findById(idToFind);
+
+        Assertions.assertNotNull(foundBalance);
+        Assertions.assertEquals(idToFind, foundBalance.getCustId());
+    }
+
+    @Test
+    void testsaveBalance(){
+
+        Balance updatedBalance = new Balance();
+        updatedBalance.setCustId(2L);
+        updatedBalance.setCustBalance(25000);
+
+        balanceRepository.saveBalance(updatedBalance);
+
+        Balance foundBalance = balanceRepository.findById(2L);
+
+        Assertions.assertNotNull(foundBalance);
+        Assertions.assertEquals(updatedBalance.getCustBalance(), foundBalance.getCustBalance());
+
+    }
+
+    @Test
+    void testUpdateBalance(){
+        Long idToUpdate = 3L;
+        int newBalanceValue = 35000;
+
+        Balance existingBalance = balanceRepository.findById(idToUpdate);
+        existingBalance.setCustBalance(newBalanceValue);
+
+        balanceRepository.updateBalance(existingBalance);
+
+        Balance updatedBalance = balanceRepository.findById(idToUpdate);
+
+        Assertions.assertNotNull(updatedBalance);
+        Assertions.assertEquals(newBalanceValue, updatedBalance.getCustBalance());
+
+
+    }
+
+}

@@ -1,6 +1,4 @@
 package id.ac.ui.cs.advprog.paymentservice.model;
-
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
